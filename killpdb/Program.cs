@@ -35,26 +35,10 @@ namespace killpdb
                         if (path.Equals(".vcxproj"))
                         {
                             ProjectFileHelper helper = new ProjectFileHelper(prj.RelativePath);
-                            foreach (var config in configList)
-                            {
-                                var prop = helper.GetProperty("GenerateDebugInformation", config,"Win32");
-                                if (string.IsNullOrEmpty(prop))
-                                {
-                                    Console.WriteLine($"Error {prj.ProjectName}|{config} GenerateDebugInformation not found");
-                                }
-                                if (prop != "false")
-                                {
-                                    helper.SetProperty("GenerateDebugInformation","false", config,"");
-                                    Console.WriteLine($"{prj.ProjectName}|{config} PDB was set to false");
-                                    changed = true;
-                                }
-                                else
-                                {
-                                    Console.WriteLine($"{prj.ProjectName}|{config} PDB is false already");
-                                }
-                            }
+                            var cnt = helper.SetAllProperty("GenerateDebugInformation","false");
+                            Console.WriteLine($"{prj.ProjectName} => {cnt} ");
 
-                            if (changed)
+                            if (cnt >0)
                             {
                                 helper.Save();
                             }

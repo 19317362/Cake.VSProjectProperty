@@ -89,6 +89,14 @@
             <param name="platform"></param>
             <returns></returns>
         </member>
+        <member name="M:Cake.VSProjectProperty.ProjectFileHelper.SetAllProperty(System.String,System.String)">
+             <summary>
+            
+             </summary>
+             <param name="key"></param>
+             <param name="value"></param>
+             <returns>返回改过的数量</returns>
+        </member>
         <member name="M:Cake.VSProjectProperty.ProjectFileHelper.Save">
              <summary>
             

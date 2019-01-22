@@ -153,13 +153,11 @@ namespace Cake.VSProjectProperty
         /// </summary>
         /// <param name="key"></param>
         /// <param name="value"></param>
-        /// <param name="config"></param>
-        /// <param name="platform"></param>
-        public void SetAllProperty(string key, string value)
+        /// <returns>返回改过的数量</returns>
+        public int SetAllProperty(string key, string value)
         {
+            int cnt = 0;
             XmlNode root = _doc.DocumentElement;
-            config = config.ToLower();
-            platform = platform.ToLower();
 
             if (root == null || root.Name != "Project") throw new CakeException("not a valid Project file.");
 
@@ -167,25 +165,44 @@ namespace Cake.VSProjectProperty
             foreach (XmlNode group in root.ChildNodes)
             {
                 if (group.Name != "PropertyGroup" && group.Name != "ItemDefinitionGroup") continue;
-                if (!IsTargetGroup(group, config, platform)) continue;
 
                 foreach (XmlNode item in group.ChildNodes)
                 {
                     if (item.ChildNodes.Count == 1)
                     {
-                        if (item.Name != key) continue;
-                        item.InnerText = value;
-                        return;
+                        if (item.Name != key)
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            if (item.InnerText != value)
+                            {
+                                item.InnerText = value;
+                                cnt++;
+                            }
+                        }
+
+
                     }
 
                     foreach (XmlNode item2 in item.ChildNodes)
                     {
-                        if (item2.Name != key) continue;
-                        item2.InnerText = value;
-                        return;
+                        if (item2.Name != key)
+                        {
+                            continue;
+                        }
+
+                        if (item2.InnerText != value)
+                        {
+                            item2.InnerText = value;
+                            cnt++;
+                        }
                     }
                 }
             }
+
+            return cnt;
         }
         /// <summary>
         ///
