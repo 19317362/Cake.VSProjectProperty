@@ -22,7 +22,7 @@ namespace killpdb
 
                 //https://stackoverflow.com/questions/707107/parsing-visual-studio-solution-files
 
-                var solutionFile = SolutionFile.Parse(args[0]);
+                var solutionFile = SolutionFile.Parse(Path.GetFullPath(args[0]));
                 var projList = solutionFile.ProjectsInOrder.ToList();
                 var configList = new string[] {"Debug","Release"};
                 foreach (var prj in projList)
