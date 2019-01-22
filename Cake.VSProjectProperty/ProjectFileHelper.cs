@@ -29,20 +29,40 @@ namespace Cake.VSProjectProperty
 
         private bool IsTargetGroup(XmlNode group, string config, string platform)
         {
+
             if (group.Attributes.Count == 0)
             {
                 if (group.ChildNodes[0].Name != "Configuration") return false;
-                if (!group.ChildNodes[0].InnerText.ToLower().Contains(config)) return false;
+
+                if (!string.IsNullOrEmpty(config)
+                    && !group.ChildNodes[0].InnerText.ToLower().Contains(config))
+                {
+                    return false;
+                }
                 if (group.ChildNodes[1].Name != "Platform") return false;
-                if (!group.ChildNodes[1].InnerText.ToLower().Contains(platform)) return false;
+                if (!string.IsNullOrEmpty(platform)
+                    && !group.ChildNodes[1].InnerText.ToLower().Contains(platform))
+                {
+                    return false;
+                }
                 return true;
             }
 
             foreach (XmlAttribute attri in group.Attributes)
             {
                 if (attri.Name != "Condition") continue;
-                if (!attri.InnerText.ToLower().Contains(config)) continue;
-                if (!attri.InnerText.ToLower().Contains(platform)) continue;
+
+                if (!string.IsNullOrEmpty(config)
+                    && !attri.InnerText.ToLower().Contains(config))
+                {
+                    continue;
+                }
+
+                if (!string.IsNullOrEmpty(platform)
+                    && !attri.InnerText.ToLower().Contains(platform))
+                {
+                    continue;
+                }
                 return true;
             }
 
@@ -128,7 +148,45 @@ namespace Cake.VSProjectProperty
             }
             return null;
         }
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <param name="config"></param>
+        /// <param name="platform"></param>
+        public void SetAllProperty(string key, string value)
+        {
+            XmlNode root = _doc.DocumentElement;
+            config = config.ToLower();
+            platform = platform.ToLower();
 
+            if (root == null || root.Name != "Project") throw new CakeException("not a valid Project file.");
+
+
+            foreach (XmlNode group in root.ChildNodes)
+            {
+                if (group.Name != "PropertyGroup" && group.Name != "ItemDefinitionGroup") continue;
+                if (!IsTargetGroup(group, config, platform)) continue;
+
+                foreach (XmlNode item in group.ChildNodes)
+                {
+                    if (item.ChildNodes.Count == 1)
+                    {
+                        if (item.Name != key) continue;
+                        item.InnerText = value;
+                        return;
+                    }
+
+                    foreach (XmlNode item2 in item.ChildNodes)
+                    {
+                        if (item2.Name != key) continue;
+                        item2.InnerText = value;
+                        return;
+                    }
+                }
+            }
+        }
         /// <summary>
         ///
         /// </summary>

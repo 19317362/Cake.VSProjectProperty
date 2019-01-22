@@ -24,7 +24,7 @@ namespace killpdb
 
                 var solutionFile = SolutionFile.Parse(args[0]);
                 var projList = solutionFile.ProjectsInOrder.ToList();
-                var configList = new string[] { "Debug","Release"};
+                var configList = new string[] {"Debug","Release"};
                 foreach (var prj in projList)
                 {
                     //<GenerateDebugInformation>true</GenerateDebugInformation>
@@ -40,17 +40,17 @@ namespace killpdb
                                 var prop = helper.GetProperty("GenerateDebugInformation", config,"Win32");
                                 if (string.IsNullOrEmpty(prop))
                                 {
-                                    Console.WriteLine("Error GenerateDebugInformation not found");
+                                    Console.WriteLine($"Error {prj.ProjectName}|{config} GenerateDebugInformation not found");
                                 }
                                 if (prop != "false")
                                 {
-                                    helper.SetProperty("GenerateDebugInformation","false", config,"Win32");
-                                    Console.WriteLine($"{prj.ProjectName} PDB was set to false");
+                                    helper.SetProperty("GenerateDebugInformation","false", config,"");
+                                    Console.WriteLine($"{prj.ProjectName}|{config} PDB was set to false");
                                     changed = true;
                                 }
                                 else
                                 {
-                                    Console.WriteLine($"{prj.ProjectName} PDB is false already");
+                                    Console.WriteLine($"{prj.ProjectName}|{config} PDB is false already");
                                 }
                             }
 
