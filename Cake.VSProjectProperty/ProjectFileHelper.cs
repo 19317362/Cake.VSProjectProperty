@@ -50,7 +50,7 @@ namespace Cake.VSProjectProperty
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="key"></param>
         /// <param name="value"></param>
@@ -59,8 +59,11 @@ namespace Cake.VSProjectProperty
         public void SetProperty(string key, string value, string config = "release", string platform = "anycpu")
         {
             XmlNode root = _doc.DocumentElement;
+            config = config.ToLower();
+            platform = platform.ToLower();
+
             if (root == null || root.Name != "Project") throw new CakeException("not a valid Project file.");
-          
+
 
             foreach (XmlNode group in root.ChildNodes)
             {
@@ -100,6 +103,8 @@ namespace Cake.VSProjectProperty
         {
             XmlNode root = _doc.DocumentElement;
             if (root == null || root.Name != "Project") throw new CakeException("Project file is not a valid .csproj file.");
+            config = config.ToLower();
+            platform = platform.ToLower();
 
             foreach (XmlNode group in root.ChildNodes)
             {
@@ -125,7 +130,7 @@ namespace Cake.VSProjectProperty
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public void Save()
         {
@@ -133,7 +138,7 @@ namespace Cake.VSProjectProperty
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public void Reload()
         {

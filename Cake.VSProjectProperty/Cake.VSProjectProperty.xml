@@ -72,13 +72,13 @@
             <param name="configure"></param>
         </member>
         <member name="M:Cake.VSProjectProperty.ProjectFileHelper.SetProperty(System.String,System.String,System.String,System.String)">
-            <summary>
+             <summary>
             
-            </summary>
-            <param name="key"></param>
-            <param name="value"></param>
-            <param name="config"></param>
-              /// <param name="platform"></param>
+             </summary>
+             <param name="key"></param>
+             <param name="value"></param>
+             <param name="config"></param>
+               /// <param name="platform"></param>
         </member>
         <member name="M:Cake.VSProjectProperty.ProjectFileHelper.GetProperty(System.String,System.String,System.String)">
             <summary>
@@ -90,14 +90,14 @@
             <returns></returns>
         </member>
         <member name="M:Cake.VSProjectProperty.ProjectFileHelper.Save">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="M:Cake.VSProjectProperty.ProjectFileHelper.Reload">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
     </members>
 </doc>
